@@ -1,0 +1,155 @@
+CREATE TABLE doctor
+(
+  first_name varchar(200) NOT NULL,
+  middle_name varchar(200) NOT NULL,
+  id INT NOT NULL,
+  email varchar(200) NOT NULL,
+  street_name_ varchar(200) NOT NULL,
+  region varchar(200) NOT NULL,
+  home_number float NOT NULL,
+  doctor_specialty varchar(200) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE medicine
+(
+  cost float NOT NULL,
+  medical_type varchar(200) NOT NULL,
+  first_name varchar(200) NOT NULL,
+  middle_name varchar(200) NOT NULL,
+  dose int NOT NULL,
+  ingredients varchar(200) NOT NULL,
+  medicine_id INT NOT NULL,
+  PRIMARY KEY (medicine_id)
+);
+
+CREATE TABLE employee
+(
+  age int NOT NULL,
+  gender varchar(200) NOT NULL,
+  first_name varchar(200) NOT NULL,
+  middle_name varchar(200) NOT NULL,
+  home_number INT NOT NULL,
+  region varchar(200) NOT NULL,
+  street_name varchar(200) NOT NULL,
+  employee_id int NOT NULL,
+  PRIMARY KEY (employee_id)
+);
+
+CREATE TABLE appointment
+(
+  date date NOT NULL,
+  time time NOT NULL,
+  appointment_id INT NOT NULL,
+  employee_id INT NOT NULL,
+  PRIMARY KEY (appointment_id),
+  FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+CREATE TABLE give
+(
+  id INT NOT NULL,
+  medicine_id INT NOT NULL,
+  PRIMARY KEY (id, medicine_id),
+  FOREIGN KEY (id) REFERENCES doctor(id),
+  FOREIGN KEY (medicine_id) REFERENCES medicine(medicine_id)
+);
+
+CREATE TABLE doctor_phone_number
+(
+  phone_number INT NOT NULL,
+  id INT NOT NULL,
+  PRIMARY KEY (phone_number, id),
+  FOREIGN KEY (id) REFERENCES doctor(id)
+);
+
+CREATE TABLE patient
+(
+  patient_id INT NOT NULL,
+  gender varchar(200) NOT NULL,
+  birth_date date NOT NULL,
+  first_name varchar(200) NOT NULL,
+  middle_name varchar(200) NOT NULL,
+  street_name varchar(200) NOT NULL,
+  region varchar(200) NOT NULL,
+  home_number INT NOT NULL,
+  blood_type varchar(200)  NOT NULL,
+  appointment_id INT NOT NULL,
+  PRIMARY KEY (patient_id),
+  FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id)
+);
+
+CREATE TABLE invoice
+(
+  date date NOT NULL,
+  cost INT NOT NULL,
+  invoice_id int NOT NULL,
+  payment_method varchar(50) NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY (invoice_id),
+  FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+);
+
+CREATE TABLE treat
+(
+  id INT NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY (id, patient_id),
+  FOREIGN KEY (id) REFERENCES doctor(id),
+  FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+);
+
+CREATE TABLE take
+(
+  patient_id INT NOT NULL,
+  medicine_id INT NOT NULL,
+  PRIMARY KEY (patient_id, medicine_id),
+  FOREIGN KEY (patient_id) REFERENCES patient(patient_id),
+  FOREIGN KEY (medicine_id) REFERENCES medicine(medicine_id)
+);
+
+CREATE TABLE patient_phone_number
+(
+  phone_number varchar NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY (phone_number, patient_id),
+  FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+);
+insert into doctor values ('youssef','adel',1,'adel@msa.com','haram','magzar',0119,'radiology'), ('mido','mado',2,'mido@msa.com','haram','faisal',0234,'dermatology'), ('youssef','saeda',3,'saeda@msa.com','tanta','zefta',0679,'pediatrics'), ('mohamed','shrkawy',4,'shrkawy@msa.com','giza','dokii',0965,'orthopedics'), ('youssef','hany',5,'hany@msa.com','haram','hadba',0583,'neurology'), ('mohamed','ramdan',6,'ramdan@msa.com','october','zayed',0741,'urology'), ('nour','ezz',7,'nour@msa.com','october','zayed',0642,'psychiatry'), ('abduallah','ahmed',8,'abduallah@msa.com','october','hossary',0674,'oncology'), ('mohamed','hany',9,'mohamed@msa.com','giza','mohandsin',0521,'pulmonology'), ('khaled','mostafa',10,'khaled@msa.com','haram','libine',0371,'nephrology')
+select *from doctor
+
+
+insert into medicine values (100,'gastroenterologist','calcium','carbonate',1,'carbon oxide',1),(200,'cancer','endoxan','vial',3,'cyclophosphamide',2),(500,'podiatrist','regranex','gel',2,'sodium carbonxymethylcellulose',3)
+select *from medicine
+
+
+insert into employee values (40,'male','omar','adel',0342,'haram','hadba',1),(22,'male','mohamed','hossam',0452,'cairo','maadi',2),(27,'male','amr','wael',0782,'haram','hadba',3),(34,'male','youssef','magdy',0212,'october','zayed',4),(24,'male','ahmed','mohamed',0527,'cairo','madinet nasr',5),(25,'male','mody','mido',0639,'haram','faisal',6),(21,'female','engy','hassan',0785,'giza','dokii',7),(19,'female','mirna','amr',0264,'haram','magzar',8),(24,'female','mariam','ahmed',0541,'cairo','masr elgdida',9),(38,'male','fady','magdy',0621,'giza','mohandsin',10)
+select *from employee
+
+
+
+insert into appointment values ('2022/5/19','7:00',1,5),('2022/5/20','9:00',2,3),('2022/5/21','10:00',3,1),('2022/5/22','10:00',4,2),('2022/5/22','6:00',5,8),('2022/5/23','7:30',6,7),('2022/5/24','5:00',7,9),('2022/5/25','11:00',8,10),('2022/5/26','8:30',9,6),('2022/5/27','9:30',10,4)
+select *from appointment
+
+
+
+insert into give values (1,3),(2,2),(3,1),(4,2),(5,1),(6,3),(7,2),(8,3),(9,2),(10,1)
+select *from give
+
+insert into doctor_phone_number values(0211,1),(0245,2),(0865,3),(0145,4),(0957,5),(0531,6),(975,7),(0821,8),(0416,9),(0116,10)
+select *from doctor_phone_number
+
+insert into patient values(1,'female','1995/6/24','salma','ahmed','haram','tawon',0486,'O Negative',2),(2,'female','1999/11/10','nada','mohamed','giza','mohandsin',0643,'Ab Negative',4),(3,'male','2001/1/2','assem','mamdouh','october','zayed',0752,'O positive',1),(4,'male','1990/4/10','mohamed','sherif','haram','hadba',0234,'B positive',3),(5,'male','2003/12/9','ziad','ahmed','haram','talbya',0721,'Ab Negative',6),(6,'male','1993/7/14','ali','mohamed','giza','mohandsin',0971,'O Negative',7),(7,'male','1998/6/24','selim','emad','cairo','madinet nasr',0216,'B positive',9),(8,'male','1992/8/18','ashraf','ahmed','haram','magzar',0326,'Ab positive',10),(9,'female','1995/6/24','jana','ashraf','october','dream',0751,'O positive',5),(10,'male','2000/5/9','haitham','mohamed','cairo','maadi',0976,'O Negative',8)
+select *from patient
+
+insert into invoice values ('2022/11/1',200,1,'cash',2),('2022/11/2',500,2,'cash',3),('2022/11/3',300,3,'cash',4),('2022/11/4',100,4,'cash',5),('2022/11/1',800,5,'debit card',6),('2022/11/7',900,6,'credit card',7),('2022/11/9',1000,7,'credit card',8),('2022/11/10',550,8,'debit card',9),('2022/11/15',250,9,'debit card',10),('2022/11/20',400,10,'credit cash',1)
+select *from invoice
+
+insert into treat values (1,10),(2,9),(3,8),(4,7),(5,6),(6,5),(7,4),(8,3),(9,2),(10,1)
+select*from treat
+
+insert into take values (1,2),(2,1),(3,1),(4,1),(5,3),(6,2),(7,3),(8,2),(9,1),(10,3)
+select*from take
+
+insert into patient_phone_number values (0101,1),(0102,2),(0104,3),(0103,4),(0107,5),(0106,6),(0108,7),(0109,8),(0105,9),(0111,10)
+select*from patient_phone_number
